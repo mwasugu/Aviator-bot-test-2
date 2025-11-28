@@ -1,508 +1,143 @@
 <!DOCTYPE html>
-<html lang="sw">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviator Cycle Learning - V4 (Predictive)</title>
-    <style>
-        /* --- STYLE YA ZAMANI (NEON/DARK) --- */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #0d0d0d;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            background-color: #1a1a1a;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
-            width: 100%;
-            max-width: 450px;
-            border: 1px solid #333;
-        }
-        h1 {
-            color: #4CAF50;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 26px;
-            letter-spacing: 1px;
-        }
-        
-        /* CLOCK & CYCLE DISPLAY */
-        .clock-box {
-            text-align: center;
-            background: #000;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #4CAF50;
-            margin-bottom: 20px;
-        }
-        #realTime { font-size: 24px; font-weight: bold; color: #fff; display: block; }
-        #cycleTime { font-size: 20px; color: #FFC107; font-weight: bold; display: block; margin-top: 5px; }
-        .cycle-label { font-size: 12px; color: #888; text-transform: uppercase; }
-
-        /* ALERT BOXES */
-        .alert-box {
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        /* 1. JACKPOT ALERT (Now Predictive) */
-        #jackpotAlert {
-            background-color: #111;
-            border: 1px dashed #555;
-            color: #777;
-            min-height: 20px;
-        }
-        .jackpot-active {
-            background-color: #4A148C !important; /* Deep Purple for High Prediction */
-            color: #E0E0E0 !important;
-            border: 2px solid #D1C4E9 !important;
-            box-shadow: 0 0 15px #D1C4E9;
-            animation: pulse 1.5s infinite;
-        }
-        .cycle-confirm {
-            background-color: #1b5e20 !important; /* Green for Cycle Confirmation */
-            border: 2px solid #4CAF50 !important;
-            box-shadow: 0 0 15px #4CAF50;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        /* 2. GENERAL RISK */
-        #riskAlert {
-            background-color: #222;
-            border-left: 5px solid #555;
-            color: #aaa;
-        }
-        
-        /* 3. JITTER/STABILITY ALERT */
-        #stabilityAlert {
-            background-color: #222;
-            padding: 10px;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        .stable { color: #69F0AE; background-color: #103b1a; border: 1px solid #69F0AE; }
-        .unstable { color: #FF5252; background-color: #3b1010; border: 1px solid #FF5252; }
-        .moderate { color: #FFD740; background-color: #3b3010; border: 1px solid #FFD740; }
-
-
-        /* INPUTS & BUTTONS */
-        label { display: block; margin-bottom: 5px; color: #aaa; font-weight: bold; }
-        .input-area { display: flex; gap: 10px; margin-bottom: 15px; }
-        
-        input[type="number"] {
-            flex: 1;
-            padding: 12px;
-            background: #2c2c2c;
-            border: 1px solid #444;
-            color: white;
-            font-size: 18px;
-            border-radius: 6px;
-            text-align: center;
-        }
-        #micBtn {
-            background: #2196F3;
-            border: none;
-            color: white;
-            width: 50px;
-            font-size: 20px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        #logButton { background-color: #4CAF50; color: #000; }
-        #undoButton { background-color: #FF9800; color: #000; width: 48%; }
-        #resetButton { background-color: #F44336; color: #fff; width: 48%; }
-        .btn-row { display: flex; justify-content: space-between; }
-
-        /* HISTORY */
-        #historyLog {
-            margin-top: 20px;
-            background: #111;
-            padding: 10px;
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #333;
-        }
-        .hist-item {
-            padding: 8px 0;
-            border-bottom: 1px solid #222;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .z-high { color: #FFD740; } 
-        .z-safe { color: #69F0AE; } 
-        .z-risk { color: #FF5252; } 
-        
-        .learn-status { text-align: center; font-size: 12px; color: #666; margin-bottom: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviator Jackpot Analyzer</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+  h1 { color: #333; }
+  textarea { width: 100%; height: 100px; }
+  input, button { padding: 8px; margin: 5px 0; }
+  .result { background: #fff; padding: 10px; margin-top: 10px; border-radius: 5px; }
+  canvas { background: #fff; border-radius: 5px; padding: 10px; margin-top: 20px; }
+  table { border-collapse: collapse; margin-top: 10px; }
+  table, th, td { border: 1px solid #333; padding: 5px; }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Aviator 12-Min System</h1>
+<h1>Aviator Jackpot Analyzer & Simulation</h1>
 
-    <div class="clock-box">
-        <span id="realTime">--:--:--</span>
-        <span class="cycle-label">TIME CYCLE (12 MIN LOOP)</span>
-        <span id="cycleTime">00:00</span>
-    </div>
-    
-    <div id="stabilityAlert" class="unstable">
-        Utulivu: Inasubiri data...
-    </div>
+<label>Enter multipliers (comma-separated):</label><br>
+<textarea id="history" placeholder="e.g. 1.06,1.26,141.98,12.5,1.2,20"></textarea><br>
 
-    <div id="jackpotAlert" class="alert-box">
-        📡 Inasubiri Data za Utabiri...
-    </div>
+<label>Jackpot threshold:</label>
+<input type="number" id="threshold" value="10" step="0.01"><br>
 
-    <div id="riskAlert" class="alert-box">
-        Learning Mode: Weka Raundi (0/5)
-    </div>
+<label>Moving window size (rounds):</label>
+<input type="number" id="windowSize" value="20" step="1"><br>
 
-    <label>Ingiza Multiplier:</label>
-    <div class="input-area">
-        <input type="number" id="roundInput" step="0.01" placeholder="Mf: 1.50">
-        <button id="micBtn">🎤</button>
-    </div>
+<label>Simulation next rounds:</label>
+<input type="number" id="simRounds" value="50" step="1"><br>
 
-    <button id="logButton" class="btn">REKODI DATA (LOG)</button>
+<button onclick="analyze()">Analyze & Simulate</button>
 
-    <div class="btn-row">
-        <button id="undoButton" class="btn">UNDO</button>
-        <button id="resetButton" class="btn">RESET</button>
-    </div>
-    
-    <div class="learn-status" id="learnStatus">Data Points: 0</div>
+<div class="result" id="result"></div>
 
-    <div id="historyLog"></div>
-</div>
+<canvas id="chart" width="400" height="200"></canvas>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // --- SETTINGS ---
-    const CYCLE_SECONDS = 720;
-    const LEARNING_THRESHOLD = 5; 
-    const ALERT_WINDOW = 30; 
-    const JITTER_ROUNDS = 20; 
-    const UNSTABLE_THRESHOLD = 8; 
-    const JACKPOT_PREDICTION_THRESHOLD = 75; // Asilimia ya utabiri kuwasha alert
+function analyze() {
+    const raw = document.getElementById('history').value;
+    const threshold = parseFloat(document.getElementById('threshold').value);
+    const windowSize = parseInt(document.getElementById('windowSize').value);
+    const simRounds = parseInt(document.getElementById('simRounds').value);
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "Processing...";
 
-    // --- VARIABLES ---
-    let history = JSON.parse(localStorage.getItem('avi_12m_history') || '[]');
-    
-    // --- ELEMENTS ---
-    const els = {
-        realTime: document.getElementById('realTime'),
-        cycleTime: document.getElementById('cycleTime'),
-        jackpotAlert: document.getElementById('jackpotAlert'),
-        riskAlert: document.getElementById('riskAlert'),
-        stabilityAlert: document.getElementById('stabilityAlert'),
-        input: document.getElementById('roundInput'),
-        logBtn: document.getElementById('logButton'),
-        undoBtn: document.getElementById('undoButton'),
-        resetBtn: document.getElementById('resetButton'),
-        micBtn: document.getElementById('micBtn'),
-        list: document.getElementById('historyLog'),
-        status: document.getElementById('learnStatus')
-    };
+    let history = raw.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+    const n = history.length;
+    if(n===0) { resultDiv.innerHTML = "No valid multipliers found."; return; }
 
-    // --- TIME FUNCTIONS ---
-    function getCycleSeconds() {
-        const now = new Date();
-        const totalSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-        return totalSec % CYCLE_SECONDS;
+    // Flags for jackpots
+    const flags = history.map(x => x >= threshold ? 1 : 0);
+    const p_hat = flags.reduce((a,b)=>a+b,0)/n;
+
+    // Observed longest drought
+    let current=0, longest=0;
+    for(let v of flags){
+        if(v===0){current++;} else { if(current>longest) longest=current; current=0; }
     }
+    if(current>longest) longest=current;
+    const observedDrought = longest;
 
-    function formatCycleTime(sec) {
-        const m = Math.floor(sec / 60).toString().padStart(2, '0');
-        const s = (sec % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-    }
-
-    // --- NEW: JACKPOT PREDICTION LOGIC ---
-    function getJackpotPrediction() {
-        // Angalia kama kuna Jackpots za kutosha (10x+)
-        const jackpots = history.filter(item => item.val >= 10.00);
-        if (jackpots.length < 2) return { prob: 0, gap: 0, roundsSince: history.length };
-
-        // 1. Hesabu idadi ya raundi zilizopita tangu Jackpot ya mwisho (iliyologgwa)
-        let roundsSinceLastJackpot = 0;
-        for (let i = 0; i < history.length; i++) {
-            if (history[i].val >= 10.00) break;
-            roundsSinceLastJackpot++;
+    // Monte Carlo simulation for anomaly
+    const nSim = 2000;
+    let moreExtreme = 0;
+    for(let i=0;i<nSim;i++){
+        let simFlags = [];
+        for(let j=0;j<n;j++){ simFlags.push(Math.random() < p_hat ? 1 : 0); }
+        let cur=0, maxD=0;
+        for(let v of simFlags){
+            if(v===0){cur++;} else { if(cur>maxD) maxD=maxD; cur=0; }
         }
+        if(cur>maxD) maxD=maxD;
+        if(maxD >= observedDrought) moreExtreme++;
+    }
+    const anomalyProb = (moreExtreme/nSim*100).toFixed(2);
 
-        // 2. Hesabu Wastani wa Nafasi (Average Gap in Rounds)
-        let gaps = [];
-        let lastIndex = -1;
-        
-        // Tunapitia historia kinyume (zamani kwenda sasa)
-        for (let i = history.length - 1; i >= 0; i--) {
-            if (history[i].val >= 10.00) {
-                if (lastIndex !== -1) {
-                    gaps.push(lastIndex - i); 
-                }
-                lastIndex = i;
+    // Moving-window probability
+    let windowProb = [];
+    let labels = [];
+    for(let i=0; i<=n-windowSize; i++){
+        const windowFlags = flags.slice(i, i+windowSize);
+        const winProb = windowFlags.reduce((a,b)=>a+b,0)/windowSize;
+        windowProb.push((winProb*100).toFixed(2));
+        labels.push(i+1);
+    }
+
+    // Simulate next rounds based on empirical probability
+    let simNext = [];
+    for(let i=0;i<simRounds;i++){
+        simNext.push(Math.random() < p_hat ? 1 : 0);
+    }
+
+    // Build table of simulated next rounds
+    let tableHTML = "<table><tr><th>Round</th><th>Jackpot (≥"+threshold+"x)?</th></tr>";
+    simNext.forEach((v,i)=>{
+        tableHTML += "<tr><td>"+(i+1)+"</td><td>"+(v===1?"Yes":"No")+"</td></tr>";
+    });
+    tableHTML += "</table>";
+
+    // Display results
+    resultDiv.innerHTML = `
+    <b>Total rounds:</b> ${n} <br>
+    <b>Empirical jackpot probability (≥${threshold}x):</b> ${(p_hat*100).toFixed(2)}% <br>
+    <b>Observed longest drought (rounds without jackpot):</b> ${observedDrought} <br>
+    <b>Jackpot anomaly probability (% of random sims with ≥ observed drought):</b> ${anomalyProb}% <br>
+    <b>Next ${simRounds} rounds simulation (purely statistical, learning only):</b>
+    ${tableHTML}
+    `;
+
+    // Draw chart
+    const ctx = document.getElementById('chart').getContext('2d');
+    if(window.chartInstance) window.chartInstance.destroy();
+    window.chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: `Moving-window (${windowSize} rounds) jackpot %`,
+                data: windowProb,
+                borderColor: 'rgba(75,192,192,1)',
+                backgroundColor: 'rgba(75,192,192,0.2)',
+                fill: true,
+                tension: 0.2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 100, title: { display:true, text:'Probability (%)' } },
+                x: { title: { display:true, text:'Round start' } }
             }
         }
-        
-        // Ikiwa gaps bado haina data, tunatumia default guess ya 30 rounds
-        const avgGap = gaps.length > 0 ? gaps.reduce((a, b) => a + b, 0) / gaps.length : 30;
-        
-        // 3. Kokotoa Asilimia ya Uwezekano
-        let probability = (roundsSinceLastJackpot / avgGap) * 100;
-        if (probability > 99) probability = 99;
-        
-        return { 
-            prob: probability, 
-            gap: Math.round(avgGap), 
-            roundsSince: roundsSinceLastJackpot
-        };
-    }
-
-
-    // --- CORE LOGIC: CHECK ALERTS ---
-    function checkAlerts() {
-        const currentSec = getCycleSeconds();
-        
-        // 1. ANGLEZA UTULIVU (JITTER INDEX) - Logic imebaki sawa
-        let jitterCount = 0;
-        const recentHistory = history.slice(0, JITTER_ROUNDS);
-        
-        if (recentHistory.length >= 5) {
-            jitterCount = recentHistory.filter(r => r.val < 1.30).length;
-            
-            let stabilityText = "";
-            let stabilityClass = "";
-            
-            if (jitterCount >= UNSTABLE_THRESHOLD) {
-                stabilityText = `❌ UNSTABLE: ${jitterCount}/${JITTER_ROUNDS} ni < 1.30x. FIKIRIA KURESET!`;
-                stabilityClass = "unstable";
-            } else if (jitterCount >= 5) {
-                stabilityText = `⚠️ MODERATE: ${jitterCount}/${JITTER_ROUNDS} ni < 1.30x. Cheza kwa tahadhari.`;
-                stabilityClass = "moderate";
-            } else {
-                stabilityText = `✅ STABLE: ${jitterCount}/${JITTER_ROUNDS} ni < 1.30x. Data ni safi.`;
-                stabilityClass = "stable";
-            }
-            els.stabilityAlert.innerHTML = stabilityText;
-            els.stabilityAlert.className = `alert-box ${stabilityClass}`;
-        } else {
-            els.stabilityAlert.textContent = "Utulivu: Weka raundi 5+ ili kupima...";
-            els.stabilityAlert.className = "alert-box";
-        }
-
-
-        // 2. ALERT KAMA BADO TUNAJIFUNZA
-        if (history.length < LEARNING_THRESHOLD) {
-            els.riskAlert.textContent = `Learning Mode: Weka Raundi (${history.length}/${LEARNING_THRESHOLD})`;
-            els.jackpotAlert.textContent = "📡 Inasubiri Data za Utabiri...";
-            els.jackpotAlert.className = "alert-box";
-            return;
-        }
-
-        // 3. KUSANYA DATA ZA HISTORIA KWA MUDA HUU (WINDOW)
-        let relevantRounds = history.filter(item => {
-            let diff = Math.abs(item.cycleSec - currentSec);
-            if (diff > CYCLE_SECONDS / 2) diff = CYCLE_SECONDS - diff; 
-            return diff <= ALERT_WINDOW;
-        });
-
-        // --- A. JACKPOT ALERT (BLENDED PREDICTION) ---
-        const prediction = getJackpotPrediction();
-        const hasJackpotHistory = relevantRounds.some(r => r.val >= 10.00);
-
-        let jackpotText = "";
-        let jackpotClass = "alert-box";
-        let colorOverride = false;
-        
-        if (prediction.prob >= JACKPOT_PREDICTION_THRESHOLD) {
-            // CONDITION 1: Utabiri wa Gap ni Juu (Alert inawaka)
-            jackpotText = `🔥 **Utabiri wa Nafasi: ${prediction.prob.toFixed(0)}%**<br>Raundi ${prediction.roundsSince} / ${prediction.gap} Wastani`;
-            jackpotClass += " jackpot-active";
-            colorOverride = true; 
-
-            if (hasJackpotHistory) {
-                // CONFIRMATION: Ikiwa Utabiri ni Juu + Saa inaruhusu (Confidence Level Juu)
-                jackpotText += "<br>💰 **PIA: Muda huu wa mzunguko unaruhusu!**";
-                jackpotClass += " cycle-confirm"; // Change color to high confidence green
-            }
-        } else if (hasJackpotHistory) {
-            // CONDITION 2: Utabiri uko chini, lakini Saa inaruhusu (Alert inawaka kwa sababu ya saa)
-            jackpotText = `⚠️ **Uthibitisho wa Mzunguko:** Muda huu uliwahi kutoa 10x+.`;
-            jackpotClass += " cycle-confirm";
-        } else {
-            // HAKUNA PREDICTION WALA CONFIRMATION
-            jackpotText = `Utabiri wa Nafasi: ${prediction.prob.toFixed(0)}%. Inasubiri...`;
-        }
-        
-        els.jackpotAlert.innerHTML = jackpotText;
-        els.jackpotAlert.className = jackpotClass;
-
-        // Reset default styles if no alert is active
-        if (!colorOverride && !hasJackpotHistory && prediction.prob < JACKPOT_PREDICTION_THRESHOLD) {
-             els.jackpotAlert.style.color = "#777";
-             els.jackpotAlert.style.backgroundColor = "#111";
-             els.jackpotAlert.style.border = "1px dashed #555";
-        }
-
-
-        // 4. RISK ASSESSMENT (Logic imebaki sawa)
-        if (relevantRounds.length === 0) {
-            els.riskAlert.textContent = "Hakuna data ya kutosha kwa muda huu wa mzunguko.";
-            els.riskAlert.style.borderLeft = "5px solid #555";
-            els.riskAlert.style.backgroundColor = "#222";
-            els.riskAlert.style.color = "#aaa";
-        } else {
-            let redCount = relevantRounds.filter(r => r.val < 2.00).length;
-            let total = relevantRounds.length;
-            let redPercent = (redCount / total) * 100;
-
-            if (redPercent >= 60) {
-                els.riskAlert.innerHTML = `🚨 <b>HATARI (HIGH RISK)</b><br>${redPercent.toFixed(0)}% ya historia muda huu ni < 2.00x`;
-                els.riskAlert.style.borderLeft = "5px solid #FF5252"; 
-                els.riskAlert.style.color = "#FF5252";
-                els.riskAlert.style.backgroundColor = "#3b1010";
-            } else if (redPercent <= 30 && total >= 2) {
-                els.riskAlert.innerHTML = `✅ <b>SALAMA (SAFE ZONE)</b><br>Historia inaonyesha matokeo mazuri muda huu.`;
-                els.riskAlert.style.borderLeft = "5px solid #69F0AE"; 
-                els.riskAlert.style.color = "#69F0AE";
-                els.riskAlert.style.backgroundColor = "#103b1a";
-            } else {
-                els.riskAlert.innerHTML = `⚠️ <b>KAWAIDA (MODERATE)</b><br>Soko limechanganyika muda huu.`;
-                els.riskAlert.style.borderLeft = "5px solid #FFD740"; 
-                els.riskAlert.style.color = "#FFD740";
-                els.riskAlert.style.backgroundColor = "#3b3010";
-            }
-        }
-    }
-
-    // --- UPDATE UI & RENDERING ---
-    function updateUI() {
-        const now = new Date();
-        els.realTime.textContent = now.toLocaleTimeString('en-GB');
-        els.cycleTime.textContent = formatCycleTime(getCycleSeconds());
-        
-        checkAlerts(); 
-        
-        els.status.textContent = `Jumla ya Data: ${history.length}`;
-    }
-
-    function renderList() {
-        els.list.innerHTML = history.map((item, i) => {
-            let color = "z-risk";
-            if (item.val >= 10) color = "z-high";
-            else if (item.val >= 2) color = "z-safe";
-            
-            return `<div class="hist-item">
-                <span style="color:#666">[${formatCycleTime(item.cycleSec)}]</span>
-                <span class="${color}">${item.val.toFixed(2)}x</span>
-            </div>`;
-        }).join('');
-    }
-
-    // --- ACTIONS ---
-    function logRound() {
-        const val = parseFloat(els.input.value);
-        if (!val || isNaN(val)) return;
-
-        const newEntry = {
-            val: val,
-            cycleSec: getCycleSeconds(),
-            timestamp: new Date().getTime()
-        };
-
-        history.unshift(newEntry);
-        if (history.length > 150) history.pop();
-        
-        localStorage.setItem('avi_12m_history', JSON.stringify(history));
-        els.input.value = '';
-        renderList();
-    }
-
-    function undoRound() {
-        if (history.length > 0) {
-            const removed = history.shift();
-            els.input.value = removed.val;
-            localStorage.setItem('avi_12m_history', JSON.stringify(history));
-            renderList();
-        }
-    }
-
-    function resetData() {
-        if(confirm("Futa data zote uanze upya? Hii ni muhimu kama mchezo unabadilika hovyo.")) {
-            history = [];
-            localStorage.removeItem('avi_12m_history');
-            renderList();
-        }
-    }
-
-    // --- LISTENERS ---
-    els.logBtn.addEventListener('click', logRound);
-    els.undoBtn.addEventListener('click', undoRound);
-    els.resetBtn.addEventListener('click', resetData);
-
-    // --- VOICE INPUT ---
-    if (window.webkitSpeechRecognition || window.SpeechRecognition) {
-        const SpeechApi = window.webkitSpeechRecognition || window.SpeechRecognition;
-        const recognition = new SpeechApi();
-        recognition.lang = 'en-US';
-        
-        els.micBtn.addEventListener('click', () => {
-            els.micBtn.style.backgroundColor = "red";
-            recognition.start();
-        });
-
-        recognition.onresult = (e) => {
-            const num = e.results[0][0].transcript.match(/(\d+(\.\d+)?)/);
-            if (num) {
-                els.input.value = parseFloat(num[0]).toFixed(2);
-                logRound();
-            }
-            els.micBtn.style.backgroundColor = "#2196F3";
-        };
-        recognition.onerror = () => els.micBtn.style.backgroundColor = "#2196F3";
-        recognition.onend = () => els.micBtn.style.backgroundColor = "#2196F3";
-    } else {
-        els.micBtn.style.display = 'none';
-    }
-
-    // --- START ---
-    setInterval(updateUI, 1000);
-    renderList();
-    updateUI();
-});
+    });
+}
 </script>
 
 </body>
